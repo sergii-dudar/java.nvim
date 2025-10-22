@@ -1,57 +1,57 @@
-local nvimTreeIntegration = {}
+local neoTreeIntegration = {}
 
 local utils = require("simaxme-java.rename.utils")
 local options = require("simaxme-java.options")
 
--- initialise nvim tree integration
--- will automaticly subscribe to the NodeRenamed event and execute the on_rename_file method
-function nvimTreeIntegration.setup(nvim_tree_options)
-    local java_rename = require("simaxme-java.rename")
-    local utils = require("simaxme-java.rename.utils")
+-- Initialize Neo-tree integration:
+-- Subscribes to "file_renamed" and "file_moved" events
+function neoTreeIntegration.setup()
+	local ok, events = pcall(require, "neo-tree.events")
+	if not ok then
+		vim.notify("[simaxme-java] Neo-tree not found", vim.log.levels.WARN)
+		return
+	end
 
-    local status, api = pcall(require, "nvim-tree.api")
+	local java_rename = require("simaxme-java.rename")
 
-    if not status then
-        return
-    end
+	-- helper to process rename/move events
+	local function handle_rename_or_move(old_path, new_path)
+		local regex = "%.java$"
+		local is_java_file = string.find(old_path, regex) ~= nil and string.find(new_path, regex) ~= nil
 
+		if not is_java_file then
+			local root_markers = options.get_java_options().root_markers
+			local parts = utils.split_with_patterns(old_path, root_markers)
 
-    api.events.subscribe(api.events.Event.NodeRenamed, function(data)
-        local regex = "%.java$"
+			if #parts <= 1 then
+				return
+			end
+		end
 
-        local is_java_file = string.find(data.old_name, regex) ~= nil and string.find(data.new_name, regex) ~= nil
+		java_rename.on_rename_file(old_path, utils.realpath(new_path))
+	end
 
-        if not is_java_file then
-            local root_markers = options.get_java_options().root_markers
+	-- Neo-tree emits events via its `events` module
+	events.subscribe({
+		event = events.FILE_RENAMED,
+		handler = function(data)
+			handle_rename_or_move(data.source, data.destination)
+			vim.notify("[simaxme-java] Neo-tree file renamed", vim.log.levels.INFO)
+		end,
+	})
 
-            -- find the relative root path by splitting the array, which is defined by options.root_markers
-            local parts = utils.split_with_patterns(data.old_name, root_markers)
+	-- Neo-tree 3.x and newer emits separate move events (rename covers both, but just in case)
+	if events.FILE_MOVED then
+		events.subscribe({
+			event = events.FILE_MOVED,
+			handler = function(data)
+				handle_rename_or_move(data.source, data.destination)
+				vim.notify("[simaxme-java] Neo-tree file moved", vim.log.levels.INFO)
+			end,
+		})
+	end
 
-            -- if any of the root markers could not be found, cancel
-            if #parts <= 1 then
-                return nil
-            end
-        end
-
-        local old_name = data.old_name
-        local new_name = utils.realpath(data.new_name)
-
-        local is_dir = utils.is_dir(new_name)
-
-        if not is_dir then
-            java_rename.on_rename_file(old_name, new_name)
-        else
-            local files = utils.list_folder_contents_recursive(new_name)
-
-            for i, file in ipairs(files) do
-                local old_file = old_name .. "/" .. file
-                local new_file = new_name .. "/" .. file
-
-                java_rename.on_rename_file(old_file, new_file, true)
-            end
-        end
-    end)
-
+	vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
 end
 
-return nvimTreeIntegration
+return neoTreeIntegration

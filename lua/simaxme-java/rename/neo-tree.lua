@@ -36,7 +36,7 @@ function neoTreeIntegration.setup()
 		event = events.FILE_RENAMED,
 		handler = function(data)
 			handle_rename_or_move(data.source, data.destination)
-			vim.notify("[simaxme-java] Neo-tree file renamed", vim.log.levels.INFO)
+			vim.notify("[simaxme-java] Neo-tree file renamed from: " .. data.source .. ", to " .. data.destination, vim.log.levels.INFO)
 		end,
 	})
 
@@ -46,7 +46,7 @@ function neoTreeIntegration.setup()
 			event = events.FILE_MOVED,
 			handler = function(data)
 				handle_rename_or_move(data.source, data.destination)
-				vim.notify("[simaxme-java] Neo-tree file moved", vim.log.levels.INFO)
+				vim.notify("[simaxme-java] Neo-tree file moved: " .. data.source .. ", to " .. data.destination", vim.log.levels.INFO)
 			end,
 		})
 	end

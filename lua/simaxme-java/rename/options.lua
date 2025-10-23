@@ -7,8 +7,8 @@ function rename_options.setup(opts)
 	if opts == nil then
 		opts = {
 			enable = true,
-			nvimtree = false,
-			neotree = true,
+			nvimtree = true,
+			-- neotree = true,
 			write_and_close = false,
 		}
 	end
@@ -21,9 +21,9 @@ function rename_options.setup(opts)
 		opts.nvimtree = false
 	end
 
-	if opts.neotree == nil then
-		opts.neotree = true
-	end
+	-- if opts.neotree == nil then
+	-- 	opts.neotree = true
+	-- end
 
 	if opts.write_and_close == nil then
 		opts.write_and_close = false

@@ -143,13 +143,13 @@ function java_rename.setup(opts)
 		return
 	end
 
-	-- if opts.nvimtree then
-	--     require("simaxme-java.rename.nvim-tree").setup({})
-	-- end
-
-	if opts.neotree then
-		require("simaxme-java.rename.neo-tree").setup({})
+	if opts.nvimtree then
+		require("simaxme-java.rename.nvim-tree").setup({})
 	end
+
+	-- if opts.neotree then
+	-- 	require("simaxme-java.rename.neo-tree").setup({})
+	-- end
 end
 
 return java_rename

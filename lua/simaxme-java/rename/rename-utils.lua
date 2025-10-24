@@ -24,6 +24,7 @@ M.make_rename = function(data)
 
     local old_name = data.old_name
     local new_name = utils.realpath(data.new_name)
+    vim.notify("NEW_NAME: " .. new_name, vim.log.levels.INFO)
 
     local is_dir = utils.is_dir(new_name)
 

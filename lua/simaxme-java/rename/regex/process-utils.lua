@@ -6,7 +6,7 @@ M.is_buffer_to_ignore = function()
         return true
     end
     return false
-
+    -- lua print(vim.api.nvim_buf_get_name(0))
     -- vim.notify("[simaxme-java] Neo-tree buffer name: " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
 end
 

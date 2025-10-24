@@ -28,7 +28,7 @@ function moved_class_imports.add_class_imports(old_folder, old_package_name)
             if result ~= nil then
                 local addition = "import " .. old_package_name .. "." .. class_name .. ";"
 
-                buffer_content = fix_import_declaration.add_import_statement(buffer_content, addition)            
+                buffer_content = fix_import_declaration.add_import_statement(buffer_content, addition)
             end
         end
     end
@@ -59,5 +59,3 @@ function moved_class_imports.remove_class_imports(new_folder, new_package_name)
 end
 
 return moved_class_imports
-
-

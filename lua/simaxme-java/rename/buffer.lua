@@ -1,6 +1,7 @@
 local buffer = {}
 
 local utils = require("simaxme-java.rename.utils")
+local process = require("simaxme-java.rename.regex.process-utils")
 
 -- will read all lines of the current buffer (seperated by \n)
 function buffer.read_buffer_lines()
@@ -10,10 +11,9 @@ function buffer.read_buffer_lines()
     local line_result = ""
 
     for i, line in ipairs(lines) do
-        
         line_result = line_result .. line
 
-        if i < (#lines) then
+        if i < #lines then
             line_result = line_result .. "\n"
         end
     end
@@ -46,17 +46,15 @@ function buffer.open(name)
     if vim.fn.bufexists(name) == 1 then
         local bufnumber = vim.fn.bufnr(name)
 
-
-        if (vim.api.nvim_buf_is_loaded(bufnumber)) then
+        if vim.api.nvim_buf_is_loaded(bufnumber) then
             vim.cmd.buffer(bufnumber)
             return true
         end
     end
 
     vim.cmd.edit(name)
-        
+
     return false
 end
-
 
 return buffer

@@ -10,10 +10,7 @@ local options = require("simaxme-java.rename.options")
 function fix_import_declaration.generate_import_regex(class_path)
     local mapped = class_path:gsub("%.", "%%.")
 
-    return string.format(
-        "import( +)%s( *);( *)(\n?)",
-        mapped
-    )
+    return string.format("import( +)%s( *);( *)(\n?)", mapped)
 end
 
 -- look for old import declarations in the new folder/package and delete them
@@ -54,7 +51,7 @@ function fix_import_declaration.add_import_statement(content, statement)
     if start_index == nil then
         local regex = "package( +)([A-Za-z%.]*)( *)%;( *)\n"
         start_index, end_index = string.find(content, regex)
-        start_index = end_index+1
+        start_index = end_index + 1
 
         statement = "\n" .. statement
     else
@@ -93,7 +90,13 @@ local function add_import_declerations(old_folder, new_class_path, old_class_nam
 end
 
 -- fix import declarations after the move to another package -> removes or adds import declarations
-function fix_import_declaration.fix_import_declarations(old_folder, new_folder, old_class_path, new_class_path, old_class_name)
+function fix_import_declaration.fix_import_declarations(
+    old_folder,
+    new_folder,
+    old_class_path,
+    new_class_path,
+    old_class_name
+)
     delete_import_declarations(new_folder, old_class_path)
 
     add_import_declerations(old_folder, new_class_path, old_class_name)

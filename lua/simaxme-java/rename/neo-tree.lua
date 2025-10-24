@@ -1,57 +1,67 @@
 local neoTreeIntegration = {}
 
-local utils = require("simaxme-java.rename.utils")
-local options = require("simaxme-java.options")
-
 -- Initialize Neo-tree integration:
 -- Subscribes to "file_renamed" and "file_moved" events
 function neoTreeIntegration.setup()
-	local ok, events = pcall(require, "neo-tree.events")
-	if not ok then
-		vim.notify("[simaxme-java] Neo-tree not found", vim.log.levels.WARN)
-		return
-	end
+    local ok, events = pcall(require, "neo-tree.events")
+    if not ok then
+        vim.notify("[simaxme-java] Neo-tree not found", vim.log.levels.WARN)
+        return
+    end
 
-	local java_rename = require("simaxme-java.rename")
+    local rename_utils = require("simaxme-java.rename.rename-utils")
 
-	-- helper to process rename/move events
-	local function handle_rename_or_move(old_path, new_path)
-		local regex = "%.java$"
-		local is_java_file = string.find(old_path, regex) ~= nil and string.find(new_path, regex) ~= nil
+    events.subscribe({
+        event = events.FILE_RENAMED,
+        handler = function(data)
+            vim.notify(
+                "[simaxme-java] Neo-tree file renaming from: " .. data.source .. ", to " .. data.destination,
+                vim.log.levels.INFO
+            )
 
-		if not is_java_file then
-			local root_markers = options.get_java_options().root_markers
-			local parts = utils.split_with_patterns(old_path, root_markers)
+            vim.schedule(function()
+                rename_utils.make_rename({
+                    old_name = data.source,
+                    new_name = data.destination,
+                })
+            end)
 
-			if #parts <= 1 then
-				return
-			end
-		end
+            vim.notify(
+                "[simaxme-java] Neo-tree file renamed from: " .. data.source .. ", to " .. data.destination,
+                vim.log.levels.INFO
+            )
 
-		java_rename.on_rename_file(old_path, utils.realpath(new_path))
-	end
+            -- local timer = vim.uv.new_timer()
+            -- timer:start(
+            --     3000,
+            --     0,
+            --     vim.schedule_wrap(function()
+            --         vim.schedule(function()
+            --         end)
+            --         timer:close()
+            --     end)
+            -- )
+        end,
+    })
 
-	-- Neo-tree emits events via its `events` module
-	events.subscribe({
-		event = events.FILE_RENAMED,
-		handler = function(data)
-			handle_rename_or_move(data.source, data.destination)
-			vim.notify("[simaxme-java] Neo-tree file renamed from: " .. data.source .. ", to " .. data.destination, vim.log.levels.INFO)
-		end,
-	})
+    -- Neo-tree 3.x and newer emits separate move events (rename covers both, but just in case)
+    -- if events.FILE_MOVED then
+    --     events.subscribe({
+    --         event = events.FILE_MOVED,
+    --         handler = function(data)
+    --             rename_utils.make_rename({
+    --                 old_name = data.source,
+    --                 new_name = data.destination,
+    --             })
+    --             vim.notify(
+    --                 "[simaxme-java] Neo-tree file moved: " .. data.source .. ", to " .. data.destination,
+    --                 vim.log.levels.INFO
+    --             )
+    --         end,
+    --     })
+    -- end
 
-	-- Neo-tree 3.x and newer emits separate move events (rename covers both, but just in case)
-	if events.FILE_MOVED then
-		events.subscribe({
-			event = events.FILE_MOVED,
-			handler = function(data)
-				handle_rename_or_move(data.source, data.destination)
-				vim.notify("[simaxme-java] Neo-tree file moved: " .. data.source .. ", to " .. data.destination", vim.log.levels.INFO)
-			end,
-		})
-	end
-
-	vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
+    vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
 end
 
 return neoTreeIntegration

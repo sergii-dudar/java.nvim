@@ -5,10 +5,7 @@ local buffer = require("simaxme-java.rename.buffer")
 -- will generate a regex for looking for symbol usages inside the current buffer
 -- @param class_name the class_name or symbol to look for
 function symbol_usage.generate_regex(class_name)
-    return string.format(
-        "[%%s,;%%(}<]%s[%%s,;%%(}%%.>]",
-        class_name
-    )
+    return string.format("[%%s,;%%(}<]%s[%%s,;%%(}%%.>]", class_name)
 end
 
 -- will replace all symbol usages in the current buffer file
@@ -28,9 +25,7 @@ function symbol_usage.replace_symbol_usage(old_class_name, new_class_name)
             break
         end
 
-        lines = lines:sub(0, index_start) ..
-            new_class_name ..
-            lines:sub(index_end, #lines)
+        lines = lines:sub(0, index_start) .. new_class_name .. lines:sub(index_end, #lines)
 
         index = index_end
     end

@@ -6,11 +6,7 @@ local buffer = require("simaxme-java.rename.buffer")
 local function generate_regex(package_path)
     local mapped = package_path:gsub("%.", "%%.")
 
-    return string.format(
-        "package( +)%s( *);",
-        mapped
-    )
-
+    return string.format("package( +)%s( *);", mapped)
 end
 
 -- will rename the package declaration in the renamed file

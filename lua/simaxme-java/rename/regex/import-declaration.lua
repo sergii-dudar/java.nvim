@@ -6,11 +6,7 @@ local buffer = require("simaxme-java.rename.buffer")
 local function generate_regex(package_path)
     local mapped = package_path:gsub("%.", "%%.")
 
-    return string.format(
-        "import( +)%s( *);",
-        mapped
-    )
-
+    return string.format("import( +)%s( *);", mapped)
 end
 
 -- will replace old class path imports with new class path imports
@@ -22,7 +18,6 @@ function import_declaration.replace_import_declaration(old_class_path, new_class
     local regex = generate_regex(old_class_path)
 
     buffer.replace_buffer(regex, "import " .. new_class_path .. ";")
-
 end
 
 return import_declaration

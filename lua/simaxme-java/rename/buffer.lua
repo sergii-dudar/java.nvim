@@ -4,10 +4,8 @@ local utils = require("simaxme-java.rename.utils")
 
 -- will read all lines of the current buffer (seperated by \n)
 function buffer.read_buffer_lines()
-    vim.notify("buffer name is: " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
     local line_count = vim.api.nvim_buf_line_count(0)
     local lines = vim.api.nvim_buf_get_lines(0, 0, line_count, true)
-    vim.notify("content is: " .. table.concat(lines, "\n"), vim.log.levels.INFO)
 
     local line_result = ""
 

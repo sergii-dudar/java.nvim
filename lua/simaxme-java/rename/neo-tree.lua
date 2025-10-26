@@ -14,33 +14,16 @@ function neoTreeIntegration.setup()
     events.subscribe({
         event = events.FILE_RENAMED,
         handler = function(data)
-            vim.notify(
-                "[simaxme-java] Neo-tree file renaming from: " .. data.source .. ", to " .. data.destination,
-                vim.log.levels.INFO
-            )
-
+            rename_utils.switch_to_buffer(data.source)
             vim.schedule(function()
                 rename_utils.make_rename({
                     old_name = data.source,
                     new_name = data.destination,
                 })
+                vim.schedule(function()
+                    rename_utils.cleanup_old_file(data.source)
+                end)
             end)
-
-            vim.notify(
-                "[simaxme-java] Neo-tree file renamed from: " .. data.source .. ", to " .. data.destination,
-                vim.log.levels.INFO
-            )
-
-            -- local timer = vim.uv.new_timer()
-            -- timer:start(
-            --     3000,
-            --     0,
-            --     vim.schedule_wrap(function()
-            --         vim.schedule(function()
-            --         end)
-            --         timer:close()
-            --     end)
-            -- )
         end,
     })
 

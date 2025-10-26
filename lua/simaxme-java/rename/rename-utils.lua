@@ -6,7 +6,6 @@ local utils = require("simaxme-java.rename.utils")
 
 ---@param data {old_name: string, new_name: string}
 M.make_rename = function(data)
-    -- vim.cmd("wincmd l") -- TODO: temp
     local regex = "%.java$"
 
     local is_java_file = string.find(data.old_name, regex) ~= nil and string.find(data.new_name, regex) ~= nil
@@ -25,24 +24,24 @@ M.make_rename = function(data)
 
     local old_name = data.old_name
     local new_name = utils.realpath(data.new_name)
-    vim.notify("NEW_NAME: " .. new_name, vim.log.levels.INFO)
+    -- vim.notify("NEW_NAME: " .. new_name, vim.log.levels.INFO)
 
     local is_dir = utils.is_dir(new_name)
 
     if not is_dir then
         java_rename.on_rename_file(old_name, new_name)
-        vim.notify("Neo-tree (dir) file moved from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
+        -- vim.notify("Neo-tree (dir) file moved from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
     else
         local files = utils.list_folder_contents_recursive(new_name)
 
-        vim.notify("Neo-tree file renamed/moved... from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
+        -- vim.notify("Neo-tree file renamed/moved... from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
         for i, file in ipairs(files) do
             local old_file = old_name .. "/" .. file
             local new_file = new_name .. "/" .. file
 
             java_rename.on_rename_file(old_file, new_file, true)
         end
-        vim.notify("Neo-tree file renamed/moved from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
+        -- vim.notify("Neo-tree file renamed/moved from: " .. old_name .. ", to " .. new_name, vim.log.levels.INFO)
     end
 end
 

@@ -110,4 +110,15 @@ M.cleanup_old_file = function(old_file_name)
     end
 end
 
+M.close_buffer_by_file = function(file_name)
+    local abs_path = vim.fn.fnamemodify(file_name, ":p")
+    local bufnr = vim.fn.bufnr(abs_path)
+
+    -- 2. If buffer still exists, wipe it
+    if bufnr ~= -1 then
+        -- force wipe to remove even unloaded/hidden buffers
+        vim.api.nvim_buf_delete(bufnr, { force = true })
+    end
+end
+
 return M

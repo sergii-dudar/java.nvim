@@ -161,6 +161,10 @@ function java_rename.setup(opts)
     if opts.neotree then
         require("simaxme-java.rename.neo-tree").setup()
     end
+
+    if opts.oilnvim then
+        require("simaxme-java.rename.oil-nvim").setup()
+    end
 end
 
 return java_rename

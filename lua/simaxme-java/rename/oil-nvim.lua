@@ -18,7 +18,7 @@ function oilNvimIntegration.setup()
             })
             vim.schedule(function()
                 rename_utils.cleanup_old_file(old_name)
-                -- rename_utils.close_buffer_by_file(old_name)
+                vim.api.nvim_win_close(0, false) -- close oil floating window (with loaded new version of file, just as workaround)
             end)
         end)
     end
@@ -26,8 +26,13 @@ function oilNvimIntegration.setup()
     vim.api.nvim_create_autocmd("User", {
         pattern = "OilActionsPost",
         callback = function(event)
-            if event.data.actions[1].type == "move" then
-                oilNvimMakeRename(event.data.actions[1].src_url, event.data.actions[1].dest_url)
+            local action = event.data.actions[1]
+            -- vim.notify(
+            --     "[simaxme-java] oil.nvim: type - [" .. action.type .. "] " .. vim.inspect(action),
+            --     vim.log.levels.INFO
+            -- )
+            if action.type == "move" then
+                oilNvimMakeRename(action.src_url, action.dest_url)
             end
         end,
     })

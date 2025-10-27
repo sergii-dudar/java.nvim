@@ -17,8 +17,10 @@ function oilNvimIntegration.setup()
                 new_name = new_name,
             })
             vim.schedule(function()
-                rename_utils.cleanup_old_file(old_name)
                 vim.api.nvim_win_close(0, false) -- close oil floating window (with loaded new version of file, just as workaround)
+                vim.schedule(function()
+                    rename_utils.cleanup_old_file(old_name)
+                end)
             end)
         end)
     end

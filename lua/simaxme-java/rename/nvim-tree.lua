@@ -12,7 +12,7 @@ function nvimTreeIntegration.setup()
     local rename_utils = require("simaxme-java.rename.rename-utils")
     api.events.subscribe(api.events.Event.NodeRenamed, rename_utils.make_rename)
 
-    vim.notify("[simaxme-java] Nvim-tree initiated: ", vim.log.levels.INFO)
+    -- vim.notify("[simaxme-java] Nvim-tree initiated: ", vim.log.levels.INFO)
 end
 
 return nvimTreeIntegration

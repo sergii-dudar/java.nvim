@@ -19,6 +19,7 @@ function neoTreeIntegration.setup()
             })
             vim.schedule(function()
                 rename_utils.cleanup_old_file(data.source)
+                vim.notify("[simaxme-java(neo-tree)] operation successful", vim.log.levels.INFO)
             end)
         end)
     end
@@ -36,7 +37,7 @@ function neoTreeIntegration.setup()
         })
     end
 
-    vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
+    -- vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
 end
 
 return neoTreeIntegration

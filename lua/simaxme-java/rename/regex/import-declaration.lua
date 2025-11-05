@@ -7,7 +7,7 @@ local function generate_regex(package_path)
     local mapped = package_path:gsub("%.", "%%.")
 
     return string.format("import( +)%s( *);", mapped)
-    -- return string.format("import( +)%s( *)[;%.]", mapped)
+    -- return string.format("import( +)%s( *)[;%.]", mapped) TODO: fix
 end
 
 -- will replace old class path imports with new class path imports

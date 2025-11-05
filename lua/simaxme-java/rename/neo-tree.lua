@@ -5,7 +5,7 @@ local neoTreeIntegration = {}
 function neoTreeIntegration.setup()
     local ok, events = pcall(require, "neo-tree.events")
     if not ok then
-        vim.notify("[simaxme-java] Neo-tree not found", vim.log.levels.WARN)
+        vim.notify("[java-raname] Neo-tree not found", vim.log.levels.WARN)
         return
     end
 
@@ -37,7 +37,7 @@ function neoTreeIntegration.setup()
         })
     end
 
-    -- vim.notify("[simaxme-java] Neo-tree integration enabled", vim.log.levels.INFO)
+    -- vim.notify("[java-raname] Neo-tree integration enabled", vim.log.levels.INFO)
 end
 
 return neoTreeIntegration

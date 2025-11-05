@@ -2,7 +2,7 @@ local M = {}
 
 local rename_utils = require("simaxme-java.rename.rename-utils")
 local snacksNvimMakeRename = function(old_name, new_name)
-    vim.notify("[simaxme-java] snacks.nvim " .. old_name .. " -> " .. new_name, vim.log.levels.INFO)
+    vim.notify("[java-raname] snacks.nvim " .. old_name .. " -> " .. new_name, vim.log.levels.INFO)
     rename_utils.switch_to_buffer(old_name)
     rename_utils.make_rename({
         old_name = old_name,
@@ -21,6 +21,6 @@ M.rename_current = function()
     })
 end
 
--- vim.notify("[simaxme-java] snacks.nvim integration enabled", vim.log.levels.INFO)
+-- vim.notify("[java-raname] snacks.nvim integration enabled", vim.log.levels.INFO)
 
 return M

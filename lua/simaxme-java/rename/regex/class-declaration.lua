@@ -7,7 +7,6 @@ function class_declaration.replace_class_declaration(old_class_name, new_class_n
     local line_result = buffer.read_buffer_lines()
 
     local regex = string.format("class(%%s+)%s(%%s*){", old_class_name)
-
     local start_index, end_index = string.find(line_result, regex)
 
     if start_index == nil then
@@ -18,6 +17,12 @@ function class_declaration.replace_class_declaration(old_class_name, new_class_n
 
     if start_index == nil then
         local regex = string.format("enum(%%s+)%s(%%s*){", old_class_name)
+
+        start_index, end_index = string.find(line_result, regex)
+    end
+
+    if start_index == nil then
+        local regex = string.format("record(%%s+)%s(%%s*){", old_class_name)
 
         start_index, end_index = string.find(line_result, regex)
     end

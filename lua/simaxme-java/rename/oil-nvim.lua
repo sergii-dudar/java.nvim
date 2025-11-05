@@ -7,7 +7,7 @@ function oilNvimIntegration.setup()
     local oilNvimMakeRename = function(aold_name, anew_name)
         local old_name = aold_name:gsub("^oil://", "")
         local new_name = anew_name:gsub("^oil://", "")
-        -- vim.notify("[simaxme-java] oil.nvim " .. old_name .. " -> " .. new_name, vim.log.levels.INFO)
+        -- vim.notify("[java-raname] oil.nvim " .. old_name .. " -> " .. new_name, vim.log.levels.INFO)
         rename_utils.switch_to_buffer(old_name)
         rename_utils.make_rename({
             old_name = old_name,
@@ -23,7 +23,7 @@ function oilNvimIntegration.setup()
         callback = function(event)
             local action = event.data.actions[1]
             -- vim.notify(
-            --     "[simaxme-java] oil.nvim: type - [" .. action.type .. "] " .. vim.inspect(action),
+            --     "[java-raname] oil.nvim: type - [" .. action.type .. "] " .. vim.inspect(action),
             --     vim.log.levels.INFO
             -- )
             if action.type == "move" then
@@ -32,7 +32,7 @@ function oilNvimIntegration.setup()
         end,
     })
 
-    -- vim.notify("[simaxme-java] oil.nvim integration enabled", vim.log.levels.INFO)
+    -- vim.notify("[java-raname] oil.nvim integration enabled", vim.log.levels.INFO)
 end
 
 return oilNvimIntegration

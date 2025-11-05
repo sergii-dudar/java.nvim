@@ -84,10 +84,10 @@ function java_rename.on_rename_file(old_name, new_name, is_package_rename)
     -- replace class name declaration in class file
     -- vim.notify("old name: " .. old_name, vim.log.levels.INFO)
     -- vim.notify("new name: " .. new_name, vim.log.levels.INFO)
-    -- vim.notify("[simaxme-java] (0) " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
+    -- vim.notify("[java-raname] (0) " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
     local state = buffer.open(new_name)
 
-    -- vim.notify("[simaxme-java] Neo-tree buffer name: " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
+    -- vim.notify("[java-raname] Neo-tree buffer name: " .. vim.api.nvim_buf_get_name(0), vim.log.levels.INFO)
 
     -- fix class and package declaration for the renamed buffer
     regex_class_declaration.replace_class_declaration(old_class_name, new_class_name)

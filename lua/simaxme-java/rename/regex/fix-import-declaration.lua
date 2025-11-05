@@ -10,8 +10,14 @@ local options = require("simaxme-java.rename.options")
 function fix_import_declaration.generate_import_regex(class_path)
     local mapped = class_path:gsub("%.", "%%.")
 
-    return string.format("import( +)%s( *);( *)(\n?)", mapped)
+    --return string.format("import( +)%s( *);( *)(\n?)", mapped)
+    return string.format("import( +)%s( *)[;%%.]( *)(\n?)", mapped)
 end
+
+-- local lines = "import ua.serhii.application.model.User;\nimport ua.serhii.application.model.User.Address;"
+-- local regex = fix_import_declaration.generate_import_regex("ua.serhii.application.model.User")
+-- local result = string.gsub(lines, regex, "[replaced]")
+-- print(result)
 
 -- look for old import declarations in the new folder/package and delete them
 -- @param new_folder the folder where the class file was moved to

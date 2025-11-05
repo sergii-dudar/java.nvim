@@ -22,4 +22,7 @@ function java.setup(opts)
     snippets.setup(opts.snippets)
 end
 
+java.snacks = {}
+java.snacks.rename_current = require("simaxme-java.rename.snacks-nvim").rename_current
+
 return java

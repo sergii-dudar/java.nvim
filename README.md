@@ -4,7 +4,7 @@
 
 # java.nvim
 A neovim plugin to move and rename java files.
-(Fork with neo-tree & oil.nvim support)
+(Fork with neo-tree, oil.nvim and snacks.nvim/rename support)
 
 ## Introduction
 I am a Java developer and am loving to use neovim. Nevertheless, refactoring was the thing that always brought me back to JetBrains IDEs. Although [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls) is existing, which is able to simply rename symbols, file renames were never possible with it. For instance, tsserver-LSP has this feature. Because I really wanted to use neovim as my dailydriver and file-renames are essential, I have written this plugin.
